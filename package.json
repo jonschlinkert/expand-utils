@@ -1,7 +1,7 @@
 {
   "name": "expand-utils",
   "description": "Utils shared by the expand libs.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/jonschlinkert/expand-utils",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/expand-utils",
