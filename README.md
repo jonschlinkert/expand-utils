@@ -1,4 +1,4 @@
-# expand-util [![NPM version](https://badge.fury.io/js/expand-util.svg)](http://badge.fury.io/js/expand-util)
+# expand-utils [![NPM version](https://badge.fury.io/js/expand-utils.svg)](http://badge.fury.io/js/expand-utils)
 
 > Utils shared by the expand libs.
 
@@ -7,13 +7,13 @@
 Install with [npm](https://www.npmjs.com/)
 
 ```sh
-$ npm i expand-util --save
+$ npm i expand-utils --save
 ```
 
 ## Usage
 
 ```js
-var util = require('expand-util');
+var util = require('expand-utils');
 ```
 
 ## API
@@ -36,7 +36,7 @@ $ npm i -d && npm test
 
 ## Contributing
 
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jonschlinkert/expand-util/issues/new).
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jonschlinkert/expand-utils/issues/new).
 
 ## Author
 

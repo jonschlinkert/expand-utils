@@ -1,5 +1,5 @@
 /*!
- * expand-util <https://github.com/jonschlinkert/expand-util>
+ * expand-utils <https://github.com/jonschlinkert/expand-utils>
  *
  * Copyright (c) 2015, Jon Schlinkert.
  * Licensed under the MIT License.
