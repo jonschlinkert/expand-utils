@@ -64,15 +64,18 @@ utils.run = function(parent, key, child) {
  * Return true if the given value has "Config" properties
  */
 
-utils.isConfig = function(val) {
-  if (utils.isTask(val)) {
+utils.isConfig = function(config) {
+  if (!utils.isObject(config)) {
+    return false;
+  }
+  if (utils.isTask(config)) {
     return true;
   }
-  if (utils.isTarget(val)) {
+  if (utils.isTarget(config)) {
     return true;
   }
-  for (var key in val) {
-    if (utils.isTask(val[key])) {
+  for (var key in config) {
+    if (utils.isTask(config[key])) {
       return true;
     }
   }
@@ -84,6 +87,9 @@ utils.isConfig = function(val) {
  */
 
 utils.isTask = function(config) {
+  if (!utils.isObject(config)) {
+    return false;
+  }
   if (config.isTask === true) {
     return true;
   }
