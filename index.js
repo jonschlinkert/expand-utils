@@ -46,12 +46,37 @@ require = fn;
  */
 
 utils.run = function(parent, key, child) {
+  if (!parent.hasOwnProperty('run') || typeof parent.run !== 'function') {
+    var val = JSON.stringify(parent);
+    throw new TypeError('expected `' + val + '` to have a "run" method');
+  }
+
   utils.define(child, 'parent', parent);
   utils.define(child, 'orig', utils.extend({}, child));
-  utils.define(child, '_name', key);
-  child[key] = true;
+  utils.define(child, 'is', key);
+
+  utils.define(child, key, true);
   parent.run(child);
   delete child[key];
+};
+
+/**
+ * Return true if the given value has "Config" properties
+ */
+
+utils.isConfig = function(val) {
+  if (utils.isTask(val)) {
+    return true;
+  }
+  if (utils.isTarget(val)) {
+    return true;
+  }
+  for (var key in val) {
+    if (utils.isTask(val[key])) {
+      return true;
+    }
+  }
+  return false;
 };
 
 /**
@@ -61,6 +86,9 @@ utils.run = function(parent, key, child) {
 utils.isTask = function(config) {
   if (config.isTask === true) {
     return true;
+  }
+  if (utils.isFiles(config)) {
+    return false;
   }
   if (utils.isTarget(config)) {
     return false;
@@ -78,35 +106,54 @@ utils.isTask = function(config) {
  */
 
 utils.isTarget = function(config) {
-  if (!utils.isObject(config)) return false;
-  if (config.isTarget === true) return true;
-  if (config.hasOwnProperty('files')) return true;
-  if (config.hasOwnProperty('src')) return true;
-  if (config.hasOwnProperty('dest')) return true;
-  if (utils.hasFilesProps(config)) return true;
+  if (!utils.isObject(config)) {
+    return false;
+  }
+  if (config.isTarget === true) {
+    return true;
+  }
+  if (utils.hasFilesProps(config)) {
+    return true;
+  }
   return false;
 };
 
 /**
- * Return true if the given value is a "target"
+ * Return true if the given value is an object that has
+ * "ExpandFiles" characteristics or file properties
  */
 
 utils.isFiles = function(config) {
-  if (!utils.isObject(config)) return false;
-  if (config.isFiles === true) return true;
-  if (utils.hasFilesProps(config)) return true;
+  if (!utils.isObject(config)) {
+    return false;
+  }
+  if (config.isFiles === true) {
+    return true;
+  }
+  if (utils.hasFilesProps(config)) {
+    return true;
+  }
   return false;
 };
 
 /**
- * Return true if the given value is a "target"
+ * Return true if the given value is an object that has
+ * src, dest or files properties.
  */
 
 utils.hasFilesProps = function(config) {
-  if (!utils.isObject(config)) return false;
-  if (config.hasOwnProperty('files')) return true;
-  if (config.hasOwnProperty('src')) return true;
-  if (config.hasOwnProperty('dest')) return true;
+  if (!utils.isObject(config)) {
+    return false;
+  }
+  if (config.hasOwnProperty('files')) {
+    return true;
+  }
+  if (config.hasOwnProperty('src')) {
+    return true;
+  }
+  if (config.hasOwnProperty('dest')) {
+    return true;
+  }
   return false;
 };
 
