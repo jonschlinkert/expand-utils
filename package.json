@@ -29,5 +29,19 @@
     "mocha": "*",
     "use": "^1.1.2"
   },
-  "keywords": []
+  "keywords": [
+    "expand",
+    "util"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "expand-files",
+        "expand-target",
+        "expand-task",
+        "expand-config",
+        "normalize-config"
+      ]
+    }
+  }
 }
