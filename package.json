@@ -1,0 +1,28 @@
+{
+  "name": "expand-util",
+  "description": "Utils shared by the expand libs.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jonschlinkert/expand-util",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/expand-util",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/expand-util/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "keywords": []
+}
