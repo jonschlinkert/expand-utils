@@ -45,6 +45,15 @@ require = fn;
  * Utils
  */
 
+utils.is = function(obj, name) {
+  utils.define(obj, '_name', name);
+  utils.define(obj, 'is' + name, true);
+};
+
+/**
+ * Run plugins on `child` in the `parent`'s' context.
+ */
+
 utils.run = function(parent, key, child) {
   if (!parent.hasOwnProperty('run') || typeof parent.run !== 'function') {
     var val = JSON.stringify(parent);
