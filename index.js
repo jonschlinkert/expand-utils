@@ -47,7 +47,8 @@ require = fn;
 
 utils.is = function(obj, name) {
   utils.define(obj, '_name', name);
-  utils.define(obj, 'is' + name, true);
+  var str = name.charAt(0).toUpperCase() + name.slice(1);
+  utils.define(obj, 'is' + str, true);
 };
 
 /**
