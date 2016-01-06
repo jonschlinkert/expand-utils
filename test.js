@@ -74,20 +74,6 @@ describe('run', function() {
     util.run(config, 'temp', obj);
     assert(obj.is === 'temp');
   });
-
-  it('should add original object as "orig" on the "child" object', function() {
-    var config = {};
-    use(config);
-    config.use(function() {
-      return function(obj) {
-        obj.foo = 'bar';
-      }
-    });
-    var obj = {};
-    util.run(config, 'temp', obj);
-    assert('orig' in obj);
-    assert.deepEqual(obj.orig, {});
-  });
 });
 
 describe('utils', function() {
