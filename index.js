@@ -40,7 +40,7 @@ require = fn;
 utils.is = function(obj, name) {
   var key = name.charAt(0).toUpperCase() + name.slice(1);
   utils.define(obj, 'is' + key, true);
-  utils.define(obj, 'is', name);
+  utils.define(obj, 'key', name);
 };
 
 /**

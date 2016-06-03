@@ -62,7 +62,7 @@ describe('run', function() {
     assert.deepEqual(obj.parent, config);
   });
 
-  it('should add "is" property with the given key on child object', function() {
+  it('should add a "key" property with the given key on child object', function() {
     var config = {};
     use(config);
     config.use(function() {
@@ -72,7 +72,7 @@ describe('run', function() {
     });
     var obj = {};
     util.run(config, 'temp', obj);
-    assert(obj.is === 'temp');
+    assert.equal(obj.key, 'temp');
   });
 });
 
