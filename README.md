@@ -41,7 +41,7 @@ Run `parent`'s plugins on the `child` object, specifying a `key` to use for deco
 utils.run(parent, 'foo', obj);
 ```
 
-### [.isConfig](index.js#L82)
+### [.isConfig](index.js#L77)
 
 Return true if the given value has "Config" properties
 
@@ -51,7 +51,7 @@ Return true if the given value has "Config" properties
 utils.isConfig({});
 ```
 
-### [.isTask](index.js#L109)
+### [.isTask](index.js#L104)
 
 Return true if the given value has "task" properties
 
@@ -61,7 +61,7 @@ Return true if the given value has "task" properties
 utils.isTask({});
 ```
 
-### [.isTarget](index.js#L139)
+### [.isTarget](index.js#L134)
 
 Return true if the given value is a "target"
 
@@ -71,7 +71,7 @@ Return true if the given value is a "target"
 utils.isTarget({});
 ```
 
-### [.isFiles](index.js#L162)
+### [.isFiles](index.js#L157)
 
 Return true if the given value is an object s an instance of "ExpandFiles", has an `isFiles` property, or returns true from [hasFilesProps](#hasFilesProps).
 
@@ -81,7 +81,7 @@ Return true if the given value is an object s an instance of "ExpandFiles", has 
 utils.isFiles({});
 ```
 
-### [.hasFilesProps](index.js#L185)
+### [.hasFilesProps](index.js#L180)
 
 Return true if the given value is an object that has src, dest or files properties.
 
@@ -93,11 +93,11 @@ utils.hasFilesProps({});
 
 ## Related projects
 
-* [expand-config](https://www.npmjs.com/package/expand-config): Expand tasks, targets and files in a declarative configuration. | [homepage](https://github.com/jonschlinkert/expand-config)
-* [expand-files](https://www.npmjs.com/package/expand-files): Expand glob patterns in a declarative configuration into src-dest mappings. | [homepage](https://github.com/jonschlinkert/expand-files)
-* [expand-target](https://www.npmjs.com/package/expand-target): Expand target definitions in a declarative configuration. | [homepage](https://github.com/jonschlinkert/expand-target)
-* [expand-task](https://www.npmjs.com/package/expand-task): Expand and normalize task definitions in a declarative configuration. | [homepage](https://github.com/jonschlinkert/expand-task)
-* [normalize-config](https://www.npmjs.com/package/normalize-config): Normalize a declarative configuration with any combination of src-dest mappings, files arrays, files objects and… [more](https://www.npmjs.com/package/normalize-config) | [homepage](https://github.com/jonschlinkert/normalize-config)
+* [expand-config](https://www.npmjs.com/package/expand-config): Expand tasks, targets and files in a declarative configuration. | [homepage](https://github.com/jonschlinkert/expand-config "Expand tasks, targets and files in a declarative configuration.")
+* [expand-files](https://www.npmjs.com/package/expand-files): Expand glob patterns in a declarative configuration into src-dest mappings. | [homepage](https://github.com/jonschlinkert/expand-files "Expand glob patterns in a declarative configuration into src-dest mappings.")
+* [expand-target](https://www.npmjs.com/package/expand-target): Expand target definitions in a declarative configuration. | [homepage](https://github.com/jonschlinkert/expand-target "Expand target definitions in a declarative configuration.")
+* [expand-task](https://www.npmjs.com/package/expand-task): Expand and normalize task definitions in a declarative configuration. | [homepage](https://github.com/jonschlinkert/expand-task "Expand and normalize task definitions in a declarative configuration.")
+* [normalize-config](https://www.npmjs.com/package/normalize-config): Normalize a declarative configuration with any combination of src-dest mappings, files arrays, files objects and… [more](https://github.com/jonschlinkert/normalize-config) | [homepage](https://github.com/jonschlinkert/normalize-config "Normalize a declarative configuration with any combination of src-dest mappings, files arrays, files objects and options into a consistent format so the config can easily be passed to any build system.")
 
 ## Running tests
 

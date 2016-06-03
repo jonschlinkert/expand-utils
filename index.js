@@ -61,11 +61,6 @@ utils.run = function(parent, key, child) {
 
   utils.define(child, 'parent', parent);
   utils.is(child, key);
-
-  if (typeof parent.emit === 'function') {
-    parent.emit(key, child);
-  }
-
   parent.run(child);
   delete child[key];
 };
