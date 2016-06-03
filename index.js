@@ -25,7 +25,16 @@ require('define-property', 'define');
 require = fn;
 
 /**
- * Utils
+ * Decorates the given object with a `is*` method, where `*`
+ * is the given `name`.
+ *
+ * ```js
+ * var obj = {};
+ * utils.is(obj, 'foo');
+ * console.log(obj.isFoo);
+ * //=> true
+ * ```
+ * @api public
  */
 
 utils.is = function(obj, name) {
@@ -35,7 +44,13 @@ utils.is = function(obj, name) {
 };
 
 /**
- * Run plugins on `child` in the `parent`'s' context.
+ * Run `parent`'s plugins on the `child` object, specifying a `key`
+ * to use for decorating the `child` object with an [is](#is) property.
+ *
+ * ```js
+ * utils.run(parent, 'foo', obj);
+ * ```
+ * @api public
  */
 
 utils.run = function(parent, key, child) {
@@ -47,12 +62,21 @@ utils.run = function(parent, key, child) {
   utils.define(child, 'parent', parent);
   utils.is(child, key);
 
+  if (typeof parent.emit === 'function') {
+    parent.emit(key, child);
+  }
+
   parent.run(child);
   delete child[key];
 };
 
 /**
  * Return true if the given value has "Config" properties
+ *
+ * ```js
+ * utils.isConfig({});
+ * ```
+ * @api public
  */
 
 utils.isConfig = function(config) {
@@ -75,6 +99,11 @@ utils.isConfig = function(config) {
 
 /**
  * Return true if the given value has "task" properties
+ *
+ * ```js
+ * utils.isTask({});
+ * ```
+ * @api public
  */
 
 utils.isTask = function(config) {
@@ -100,6 +129,11 @@ utils.isTask = function(config) {
 
 /**
  * Return true if the given value is a "target"
+ *
+ * ```js
+ * utils.isTarget({});
+ * ```
+ * @api public
  */
 
 utils.isTarget = function(config) {
@@ -116,8 +150,13 @@ utils.isTarget = function(config) {
 };
 
 /**
- * Return true if the given value is an object that has
- * "ExpandFiles" characteristics or file properties
+ * Return true if the given value is an object s an instance of "ExpandFiles",
+ * has an `isFiles` property, or returns true from [hasFilesProps]().
+ *
+ * ```js
+ * utils.isFiles({});
+ * ```
+ * * @api public
  */
 
 utils.isFiles = function(config) {
@@ -136,6 +175,11 @@ utils.isFiles = function(config) {
 /**
  * Return true if the given value is an object that has
  * src, dest or files properties.
+ *
+ * ```js
+ * utils.hasFilesProps({});
+ * ```
+ * @api public
  */
 
 utils.hasFilesProps = function(config) {
