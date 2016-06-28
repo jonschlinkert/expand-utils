@@ -32,7 +32,8 @@
   },
   "keywords": [
     "expand",
-    "util"
+    "util",
+    "utils"
   ],
   "verb": {
     "toc": false,
@@ -57,12 +58,12 @@
     },
     "reflinks": [
       "boilerplate",
-      "scaffold",
-      "verb",
-      "verb-readme-generator",
       "expand-task",
       "grunt",
-      "gulp"
+      "gulp",
+      "scaffold",
+      "verb",
+      "verb-readme-generator"
     ]
   }
 }
