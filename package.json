@@ -10,7 +10,8 @@
   },
   "license": "MIT",
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js"
   ],
   "main": "index.js",
   "engines": {
@@ -21,7 +22,6 @@
   },
   "dependencies": {
     "define-property": "^0.2.5",
-    "extend-shallow": "^2.0.1",
     "isobject": "^2.1.0",
     "lazy-cache": "^2.0.1"
   },
@@ -35,6 +35,14 @@
     "util"
   ],
   "verb": {
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
     "related": {
       "list": [
         "expand-config",
@@ -44,8 +52,17 @@
         "normalize-config"
       ]
     },
-    "plugins": [
-      "gulp-format-md"
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "boilerplate",
+      "scaffold",
+      "verb",
+      "verb-readme-generator",
+      "expand-task",
+      "grunt",
+      "gulp"
     ]
   }
 }
