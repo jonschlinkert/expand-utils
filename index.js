@@ -7,22 +7,7 @@
 
 'use strict';
 
-/**
- * Module dependencies
- */
-
-var utils = require('lazy-cache')(require);
-var fn = require;
-require = utils;
-
-/**
- * Module dependencies
- */
-
-require('isobject', 'isObject');
-require('extend-shallow', 'extend');
-require('define-property', 'define');
-require = fn;
+var utils = require('./utils');
 
 /**
  * Decorates the given object with a `is*` method, where `*`
@@ -30,14 +15,16 @@ require = fn;
  *
  * ```js
  * var obj = {};
- * utils.is(obj, 'foo');
+ * exports.is(obj, 'foo');
  * console.log(obj.isFoo);
  * //=> true
  * ```
+ * @param {Object} `obj` The object to check
+ * @param {String} `name`
  * @api public
  */
 
-utils.is = function(obj, name) {
+exports.is = function(obj, name) {
   var key = name.charAt(0).toUpperCase() + name.slice(1);
   utils.define(obj, 'is' + key, true);
   utils.define(obj, 'key', name);
@@ -48,44 +35,42 @@ utils.is = function(obj, name) {
  * to use for decorating the `child` object with an [is](#is) property.
  *
  * ```js
- * utils.run(parent, 'foo', obj);
+ * exports.run(parent, 'foo', obj);
  * ```
  * @api public
  */
 
-utils.run = function(parent, key, child) {
+exports.run = function(parent, key, child) {
   if (!parent.hasOwnProperty('run') || typeof parent.run !== 'function') {
     var val = JSON.stringify(parent);
     throw new TypeError('expected `' + val + '` to have a "run" method');
   }
 
   utils.define(child, 'parent', parent);
-  utils.is(child, key);
+  exports.is(child, key);
   parent.run(child);
   delete child[key];
 };
 
 /**
- * Return true if the given value has "Config" properties
+ * Return true if the given value has [boilerplate][] properties
  *
  * ```js
- * utils.isConfig({});
+ * exports.isBoilerplates({});
  * ```
+ * @param {Object} `config` The configuration object to check
  * @api public
  */
 
-utils.isConfig = function(config) {
+exports.isBoilerplate = function(config) {
   if (!utils.isObject(config)) {
     return false;
   }
-  if (utils.isTask(config)) {
-    return true;
-  }
-  if (utils.isTarget(config)) {
+  if (config.isBoilerplate) {
     return true;
   }
   for (var key in config) {
-    if (utils.isTask(config[key])) {
+    if (exports.isScaffold(config[key])) {
       return true;
     }
   }
@@ -93,29 +78,100 @@ utils.isConfig = function(config) {
 };
 
 /**
- * Return true if the given value has "task" properties
+ * Return true if the given value has [config](https://github.com/jonschlinkert/expand-config) properties
  *
  * ```js
- * utils.isTask({});
+ * exports.isConfig({});
  * ```
+ * @param {Object} `config` The configuration object to check
  * @api public
  */
 
-utils.isTask = function(config) {
+exports.isConfig = function(config) {
+  if (!utils.isObject(config)) {
+    return false;
+  }
+  if (exports.isTask(config)) {
+    return true;
+  }
+  if (exports.isTarget(config)) {
+    return true;
+  }
+  for (var key in config) {
+    if (exports.isTask(config[key])) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * Return true if the given value has [scaffold][] properties. Scaffolds are essentially the
+ * same configuration structure as tasks from [expand-task][]. We use [expand-task][] for expanding
+ * [grunt][]-style configs. But we use [scaffold][] when working with [gulp][] configs.
+ *
+ * ```js
+ * console.log(exports.isScaffold({
+ *   foo: {
+ *     options: {},
+ *     files: []
+ *   },
+ *   bar: {
+ *     options: {},
+ *     files: []
+ *   }
+ * }));
+ * //=> true
+ * ```
+ * @param {Object} `config` The configuration object to check
+ * @api public
+ */
+
+exports.isScaffold = function(config) {
+  if (!utils.isObject(config)) {
+    return false;
+  }
+  if (config.isScaffold === true) {
+    return true;
+  }
+  return exports.isTask(config);
+};
+
+/**
+ * Return true if the given value has [task](https://github.com/jonschlinkert/expand-task) properties
+ *
+ * ```js
+ * console.log(exports.isTask({
+ *   foo: {
+ *     options: {},
+ *     files: []
+ *   },
+ *   bar: {
+ *     options: {},
+ *     files: []
+ *   }
+ * }));
+ * //=> true
+ * ```
+ * @param {Object} `config` The configuration object to check
+ * @api public
+ */
+
+exports.isTask = function(config) {
   if (!utils.isObject(config)) {
     return false;
   }
   if (config.isTask === true) {
     return true;
   }
-  if (utils.isFiles(config)) {
+  if (exports.isFiles(config)) {
     return false;
   }
-  if (utils.isTarget(config)) {
+  if (exports.isTarget(config)) {
     return false;
   }
   for (var key in config) {
-    if (utils.isTarget(config[key])) {
+    if (exports.isTarget(config[key])) {
       return true;
     }
   }
@@ -123,45 +179,63 @@ utils.isTask = function(config) {
 };
 
 /**
- * Return true if the given value is a "target"
+ * Return true if the given value is has [target](https://github.com/jonschlinkert/expand-target)
+ * properties.
  *
  * ```js
- * utils.isTarget({});
+ * console.log(exports.isTarget({
+ *   name: 'foo',
+ *   options: {},
+ *   files: []
+ * }));
+ * //=> true
  * ```
+ * @param {Object} `config` The configuration object to check
  * @api public
  */
 
-utils.isTarget = function(config) {
+exports.isTarget = function(config) {
   if (!utils.isObject(config)) {
     return false;
   }
   if (config.isTarget === true) {
     return true;
   }
-  if (utils.hasFilesProps(config)) {
+  if (exports.hasFilesProps(config)) {
     return true;
   }
   return false;
 };
 
 /**
- * Return true if the given value is an object s an instance of "ExpandFiles",
- * has an `isFiles` property, or returns true from [hasFilesProps]().
+ * Return true if the given value is an object and instance of [expand-files](https://github.com/jonschlinkert/expand-files), has an `isFiles` property, or returns true from [hasFilesProps]().
  *
  * ```js
- * utils.isFiles({});
+ * console.log(exports.hasFilesProps({isFiles: true}));
+ * //=> true
+ * console.log(exports.hasFilesProps({files: []}));
+ * //=> true
+ * console.log(exports.hasFilesProps({files: [{src: [], dest: ''}]}));
+ * //=> true
+ * console.log(exports.hasFilesProps({src: []}));
+ * //=> true
+ * console.log(exports.hasFilesProps({dest: ''}));
+ * //=> true
+ * console.log(exports.hasFilesProps({foo: ''}));
+ * //=> false
  * ```
- * * @api public
+ * @param {Object} `config` The configuration object to check
+ * @api public
  */
 
-utils.isFiles = function(config) {
+exports.isFiles = function(config) {
   if (!utils.isObject(config)) {
     return false;
   }
   if (config.isFiles === true) {
     return true;
   }
-  if (utils.hasFilesProps(config)) {
+  if (exports.hasFilesProps(config)) {
     return true;
   }
   return false;
@@ -169,15 +243,25 @@ utils.isFiles = function(config) {
 
 /**
  * Return true if the given value is an object that has
- * src, dest or files properties.
+ * `src`, `dest` or `files` properties.
  *
  * ```js
- * utils.hasFilesProps({});
+ * console.log(exports.hasFilesProps({files: []}));
+ * //=> true
+ * console.log(exports.hasFilesProps({files: [{src: [], dest: ''}]}));
+ * //=> true
+ * console.log(exports.hasFilesProps({src: []}));
+ * //=> true
+ * console.log(exports.hasFilesProps({dest: ''}));
+ * //=> true
+ * console.log(exports.hasFilesProps({foo: ''}));
+ * //=> false
  * ```
+ * @param {Object} `config` The configuration object to check
  * @api public
  */
 
-utils.hasFilesProps = function(config) {
+exports.hasFilesProps = function(config) {
   if (!utils.isObject(config)) {
     return false;
   }
@@ -192,9 +276,3 @@ utils.hasFilesProps = function(config) {
   }
   return false;
 };
-
-/**
- * Expose `utils` modules
- */
-
-module.exports = utils;

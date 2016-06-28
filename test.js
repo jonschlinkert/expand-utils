@@ -5,12 +5,6 @@ var use = require('use');
 var assert = require('assert');
 var util = require('./');
 
-describe('expand-util', function() {
-  it('should export a getter function', function() {
-    assert.equal(typeof util, 'function');
-  });
-});
-
 describe('run', function() {
   it('should throw an error if object does not have a `run` property', function(cb) {
     try {
